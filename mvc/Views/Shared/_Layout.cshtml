@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - mvc</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/mvc.styles.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/1070c32c06.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <header>
+        <p class="headerText bigTextWhite">Blåatoppens dagblad</p>
+        <a class="admin smallTextWhite" href="https://localhost:7208/Admin">Admin</a>
+            <div class="headerItem">
+                <input type="checkbox" id="darkmode" /><label class="darkmodeLabel darkmodeTextCenter smallTextWhite" for="darkmode">Byt tema</label>
+            </div>
+    </header>
+
+    <div class="container">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <div class="footerContainer">
+
+        <div class="marginLeftFooter"></div>
+        <div class="marginRightFooter"></div>
+
+        <div class="address">
+            <p class="footerNameHeadline bigTextWhite">Blåtoppens dagblad</p>
+            <p class="smallTextWhite">Bettorpsgatan 10</p>
+            <p class="smallTextWhite">703 69 Örebro</p>
+        </div>
+
+        <div class="info">
+            <p class="footerInfoHeadline bigTextWhite">Om oss</p>
+            <p class="smallTextWhite">
+                Dagstidningen Blåatoppens dagblad grundades 1821.
+                Tidningen har under 100 år varit den mest lästa tidningen i hela Blåatoppen.
+                Ambitionen med tidningen har sedan dess grundande varit att tillhandahållamedborgarna med
+                nyhetsrapportering av den allra högsta kvalitén.
+                Blåatoppens dagblad finns i dag tillgänglig som papperstidning. e-tidning, sajt, ljud-tidning och VR-upplevelse.
+            </p>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+﻿@using mvc.Models;
+@using System.Text.RegularExpressions;
+
+@model mvc.Models.StartPage
+
+
+@{
+    <div class="startpageGrid">
+
+        <div class="marginLeftStartpage"></div>
+        <div class="marginRightStartpage"></div>
+
+        @*<div class="pinnedContainer">*@
+            @foreach (var article in Model.PinnedArticles)
+            {
+                var regexUrl = new Regex(@"[\s+]");
+                string articleName = regexUrl.Replace(article.Title, "-").ToString();
+                string url = $"{article.Id}-{articleName}";
+
+                <a asp-controller="News" asp-action="ArticlePage" asp-route-articleUrl="@url">
+                    <div class="articleContainerStartPage">
+                        <img alt="En artikel bild" class="imageContainer" src="~/images/@article.ImageName" />
+                        <p class="createdText smallTextGrey">@article.Created</p>
+                        <p class="titleText bigTextBlack">@article.Title</p>
+                        <p class="authorName smallTextGrey">- @article.AuthorFirstName.ToUpper() @article.AuthorLastName.ToUpper()</p>
+                    </div>
+                </a>
+                
+            }
+        @*</div>*@
+
+        <div class="latestArticleContainer">
+            <p class="latestNewsText bigTextBlack">De senaste nyheterna</p>
+            @{
+                int counter = 2;
+            }
+            @foreach (var article in Model.LatestArticles)
+            {
+
+                var regexUrl = new Regex(@"[\s+]");
+                string articleName = regexUrl.Replace(article.Title, "-").ToString();
+                string url = $"{article.Id}-{articleName}";
+                string className = $"row{counter}";
+
+                <div class=@className>
+                    <div class="latestArticleSingle">
+                        <p class="latestArticleCreated smallTextGrey">@article.Created</p>
+                        <p class="latestArticleTitle smallTextBlackBold">@article.Title</p>
+                        <p class="latestArticleIntro smallTextGrey">@article.Intro</p>
+                        <a class="latestReadMoreButton smallTextWhite" asp-controller="News" asp-action="ArticlePage" asp-route-articleUrl="@url">Läs mer <i class="faArrow fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+                counter += 1;
+            }
+        </div>
+        <div class="adContainerStartpage">
+            <a href="https://www.buyawesomestuff.com/">
+                <div>
+                    @{
+                        string portrait = new Random().Next(1, 4).ToString();
+                    }
+
+                    <picture class="StartpageAds">
+                        <source media="(min-width: 1025px)" srcset="~/ads/reklam-@portrait-portrait-320w.png">
+                        <img alt="Reklambilder" src="~/ads/reklam-@portrait-landscape-470w.png" />
+                    </picture>
+                </div>
+            </a>
+        </div>
+    </div>
+
+}

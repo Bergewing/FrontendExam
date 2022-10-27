@@ -1,0 +1,157 @@
+﻿@model Service.Models.ArticleDTO
+
+
+
+<div class="articlePageContainer">
+
+    @*<div class="marginRight"></div>
+        <div class="marginLeft"></div>
+        <div class="authorContainer"></div>
+    *@
+
+    <div class="articleHeader">
+        <img alt="En header bild" class="articleHeaderPicture" src="~/images/@Model.ImageName" />
+        <h2 class="headerTitleCenter extraBigTextWhite">@Model.Title</h2>
+    </div>
+
+    <div class="articleContainer">
+
+
+        <div class="article">
+            @foreach (var article in Model.Blocks)
+            {
+                if (article.Order == 1)
+                {
+                    <div class="articleText">
+                        <p class="articleTextBold">@article.Value</p>
+                    </div>
+                }
+                if (article.Type == "image")
+                {
+                    <div class="articlePictureContainer">
+                        <img alt="En artikel bild" class="articlePicture" src="~/images/@article.Value" />
+                    </div>
+                }
+                else if (article.Type == "quote")
+                {
+                    <div class="articleQuote">
+                        <p class="articleTextQuote textInsideQuote">@article.Value</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="articleText">
+                        <p class="articleText">@article.Value</p>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+
+    <div class="authorContainer">
+        @{
+            string authorEmail = @Model.Author.Mail;
+            string twitter = "https://twitter.com/";
+            string authorTwitter = @Model.Author.TwitterUserName;
+        }
+
+        <div class="authorCreatedAndPics">
+            <p class="articleCreated smallTextBlack">@Model.Created</p>
+            <div class="authorPictureContainer">
+                <img alt="En författar bild" src="~/images/@Model.Author.ImageName" />
+            </div>
+        </div>
+        <P class="authorContainerName smallTextBlack">@Model.Author.FirstName @Model.Author.LastName</P>
+        @if(Model.Author.Mail != null)
+        {
+            <a class="authorMail smallTextBlack" 
+               href="mailto: @authorEmail">
+            <i class="faLinks fa-regular fa-envelope"></i>
+            E-post</a>
+            
+        }
+        <br />
+        @if(Model.Author.TwitterUserName != null){
+            <a class="authorTwitter smallTextBlack" 
+               href="@twitter@authorTwitter" 
+               target="_blank">
+           <i class="faLinks fa-brands fa-twitter"></i>
+           Twitter</a>
+        }
+    </div>
+
+
+    <div class="adsContainerArticlePage">
+        @{
+            string landscape = new Random().Next(1, 4).ToString();
+            string portrait = new Random().Next(1, 4).ToString();
+        }
+        <picture class="ArticleAds">
+            <source media="(min-width: 700px)" srcset="~/ads/reklam-@portrait-portrait-320w.png">
+            <source media="(min-width: 361px) and (max-width: 699px)" srcset="~/ads/reklam-@landscape-landscape-940w.png">
+            <img src="~/ads/reklam-@landscape-landscape-470w.png" alt="En reklam bild" class="ad-image" />
+        </picture>
+    </div>
+
+
+
+    <div class="commentSection">
+        <div class="commentSectionGrid">
+
+            <div class="numberOfComments">
+                @if (Model.Comments.Count() == 1)
+                {
+                    <p class="bigTextBlack">@Model.Comments.Count() Kommentar</p>
+                }
+                else
+                {
+                    <p class="bigTextBlack">@Model.Comments.Count() Kommentarer</p>
+                }
+            </div>
+
+            <button id="addCommentButton" onclick="RevealAddCommentSection()">Skriv en kommentar</button>
+            <script>
+                const RevealAddCommentSection = () => {
+                document.getElementById("addCommentField").classList.remove("hideCommentSection")
+                document.getElementById("addCommentButton").classList.add("hideCommentSection")
+                }
+            </script>
+
+            <div class="hideCommentSection" id="addCommentField">
+                @using (Html.BeginForm("NewComment", "News", FormMethod.Post))
+                {
+                    @Html.LabelFor(x => x.NewComment.CommentedBy, "Din e-postadress", new {@class="smallTextBlack"})
+                    @Html.TextBoxFor(x => x.NewComment.CommentedBy, new {required = "required", pattern = @"^(?:[\w\.\-]*)@(?:\w*)\.(?:\w*)$"})
+
+                    <br />
+
+                    @Html.LabelFor(x => x.NewComment.Value, "Din kommentar", new {@class="smallTextBlack"})
+                    @Html.TextAreaFor(x => x.NewComment.Value)
+
+                    <br />
+
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.HiddenFor(x => x.Title)
+
+                    <input class="postCommentButton smallTextWhite" type="submit" value="Lägg till kommentar" />
+                }
+            </div>
+
+
+            <div class="comments">
+                @foreach (var comment in Model.Comments)
+                {
+                    <div class="commentsBackground">
+                        <p class="commentsBy smallTextGrey">@comment.CommentedBy</p>
+                        <p class="commentsCreated smallTextGrey">@comment.Created</p>
+                        <p class="commentsBorder" />
+                        <p class="commentsValue articleTextSmall">@comment.Value</p>
+                    </div>
+                }
+            </div>
+
+        </div>
+    </div>
+
+</div>

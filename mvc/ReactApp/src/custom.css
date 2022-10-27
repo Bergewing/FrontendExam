@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+}
+
+/* .c1 {
+} */
+
+/* .header{
+    display: flex;
+    align-items: center;
+    color: white;
+    background-color: #548052;
+    width:100%;
+    height:10%;
+    position:absolute;
+    top:0;
+    left:0;
+} */
+
+.header .headerText {
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 23px;
+
+}
+
+.nav {
+    grid-row: 2/3;
+    margin-top: 100px;
+}
+
+
